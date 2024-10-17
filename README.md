@@ -9,6 +9,7 @@ This module provides a set of configurations for creating and managing a user po
   - [Table of Contents](#table-of-contents)
   - [Inputs](#inputs)
   - [Objects](#objects)
+    - [Access Token](#access-token)
     - [Password Policy](#password-policy)
     - [Resource Server](#resource-server)
 
@@ -19,6 +20,7 @@ This module provides a set of configurations for creating and managing a user po
 | `name`                              | `string` | The name of the user pool                     | -                                       | yes      |
 | `client_name`                       | `string` | The name of the user pool client              | -                                       | yes      |
 | `custom_domain`                     | `string` | The custom domain for the user pool           | -                                       | yes      |
+| `access_token`                      | `object` | The access token configuration                | See [Access Token](#access-token)       | no       |
 | `common_tags`                       | `map`    | Common tags to apply to all resources         | -                                       | yes      |
 | `auto_verified_attributes`          | `list`   | The list of attributes that are auto-verified | `["email"]`                             | no       |
 | `explicit_auth_flows`               | `list`   | The list of explicit authentication flows     | `["ALLOW_REFRESH_TOKEN_AUTH"]`          | no       |
@@ -29,6 +31,13 @@ This module provides a set of configurations for creating and managing a user po
 | [Resource Server](#resource-server) | `object` | The scope for the resource server             | See [Resource Server](#resource-server) | yes      |
 
 ## Objects
+
+### Access Token
+
+| Name       | Type     | Description             | Default Value | Required |
+| ---------- | -------- | ----------------------- | ------------- | -------- |
+| `validity` | `number` | Validity based on unity | -             | yes      |
+| `unity`    | `string` | Unity of time           | -             | yes      |
 
 ### Password Policy
 The `password_policy` object defines the settings for password complexity and security for the user pool.

@@ -81,3 +81,15 @@ variable "resource_server" {
   })
   description = "The scope for the resource server"
 }
+
+variable "access_token" {
+  type = object({
+    validity = number
+    unit     = string
+  })
+  description = "The validity of the access token"
+  default = {
+    validity = 30
+    unit     = "minutes"
+  }
+}

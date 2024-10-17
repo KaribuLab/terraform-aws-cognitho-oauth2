@@ -29,6 +29,10 @@ resource "aws_cognito_resource_server" "cognito" {
 resource "aws_cognito_user_pool_client" "cognito" {
   name                                 = var.client_name
   user_pool_id                         = aws_cognito_user_pool.cognito.id
+  access_token_validity                = var.access_token.validity
+  token_validity_units {
+    access_token = var.access_token.unit
+  }
   generate_secret                      = true
   explicit_auth_flows                  = var.explicit_auth_flows
   allowed_oauth_flows                  = var.allowed_oauth_flows
