@@ -14,11 +14,12 @@ resource "aws_cognito_user_pool" "cognito" {
 }
 
 resource "aws_cognito_resource_server" "cognito" {
+  count        = length(var.clients)
   user_pool_id = aws_cognito_user_pool.cognito.id
-  identifier   = var.resource_server.identifier
-  name         = var.resource_server.name
+  identifier   = var.clients[count.index].identifier
+  name         = var.clients[count.index].resource_server_name
   dynamic "scope" {
-    for_each = var.resource_server.scopes
+    for_each = var.clients[count.index].scopes
     content {
       scope_name        = scope.value.scope_name
       scope_description = scope.value.scope_description
@@ -27,16 +28,17 @@ resource "aws_cognito_resource_server" "cognito" {
 }
 
 resource "aws_cognito_user_pool_client" "cognito" {
-  name                                 = var.client_name
-  user_pool_id                         = aws_cognito_user_pool.cognito.id
-  access_token_validity                = var.access_token.validity
+  count                 = length(var.clients)
+  name                  = var.clients[count.index].name
+  user_pool_id          = aws_cognito_user_pool.cognito.id
+  access_token_validity = var.clients[count.index].access_token.validity
   token_validity_units {
-    access_token = var.access_token.unit
+    access_token = var.clients[count.index].access_token.unit
   }
   generate_secret                      = true
   explicit_auth_flows                  = var.explicit_auth_flows
   allowed_oauth_flows                  = var.allowed_oauth_flows
-  allowed_oauth_scopes                 = [for scope in var.resource_server.scopes : "${aws_cognito_resource_server.cognito.identifier}/${scope.scope_name}"]
+  allowed_oauth_scopes                 = [for scope in var.clients[count.index].scopes : "${aws_cognito_resource_server.cognito[count.index].identifier}/${scope.scope_name}"]
   allowed_oauth_flows_user_pool_client = true
   callback_urls                        = var.callback_urls
   logout_urls                          = var.logout_urls

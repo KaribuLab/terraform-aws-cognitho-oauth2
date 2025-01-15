@@ -3,11 +3,6 @@ variable "name" {
   description = "The name of the user pool"
 }
 
-variable "client_name" {
-  type        = string
-  description = "The name of the user pool client"
-}
-
 variable "custom_domain" {
   type        = string
   description = "The custom domain for the user pool"
@@ -70,26 +65,19 @@ variable "password_policy" {
   }
 }
 
-variable "resource_server" {
-  type = object({
-    name       = string
-    identifier = string
+variable "clients" {
+  type = list(object({
+    name                 = string
+    resource_server_name = string
+    identifier           = string
     scopes = list(object({
       scope_name        = string
       scope_description = string
     }))
-  })
+    access_token = object({
+      validity = number
+      unit     = string
+    })
+  }))
   description = "The scope for the resource server"
-}
-
-variable "access_token" {
-  type = object({
-    validity = number
-    unit     = string
-  })
-  description = "The validity of the access token"
-  default = {
-    validity = 30
-    unit     = "minutes"
-  }
 }

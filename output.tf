@@ -3,11 +3,11 @@ output "user_pool_id" {
 }
 
 output "client_id" {
-  value = aws_cognito_user_pool_client.cognito.id
+  value = aws_cognito_user_pool_client.cognito[*].id
 }
 
 output "client_secret" {
-  value     = aws_cognito_user_pool_client.cognito.client_secret
+  value     = aws_cognito_user_pool_client.cognito[*].client_secret
   sensitive = true
 }
 
